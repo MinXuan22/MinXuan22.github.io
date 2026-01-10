@@ -472,8 +472,8 @@
     /* Mobile adjustments to keep sizing similar on phone */
     @media (max-width: 600px) {
       .book-container {
-        width: 260px;
-        height: 335px;
+        width: 220px;
+        height: 290px;
       }
 
       .book-wrapper {
@@ -481,24 +481,31 @@
       }
 
       .spread-text-overlay {
-        left: -240px;
-        width: 480px;
+        left: -210px;
+        width: 420px;
         transform-origin: top left;
-        transform: translateY(10px) scale(0.85);
+        transform: translateY(5px) scale(0.75);
+      }
+      
+      .choice-option {
+        padding: 6px 10px;
+        margin-bottom: 12px;
+        font-size: 12px;
+      }
+
+      .choice-circle {
+        width: 18px;
+        height: 18px;
+        font-size: 11px;
       }
 
       .scenario-label {
-        font-size: 16px;
+        font-size: 15px;
       }
-
+      
       .scenario-body,
-      .question-prompt,
-      .choice-option {
-        font-size: 13px;
-      }
-
-      .choice-option {
-        margin-bottom: 16px;
+      .question-prompt {
+        font-size: 12px;
       }
     }
   </style>
