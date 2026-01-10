@@ -421,9 +421,8 @@
     }
 
     .final-box-title {
-      font-size: 21px;
-      margin: 0 0 10px;
       font-size: 22px;
+      margin: 0 0 10px;
       letter-spacing: 2px;
       text-transform: uppercase;
     }
@@ -437,13 +436,14 @@
       padding: 8px 18px;
       border-radius: 20px;
       margin-top: 8px;
-      padding: 8px 18px;
       border: 1px solid #380404;
       background-color: #610000;
       color: #f5f5f5;
       font-family: 'Special Elite', cursive;
       cursor: pointer;
       font-size: 13px;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .final-box-btn:hover {
@@ -465,8 +465,41 @@
       height: 60px;        
     }
     .badge-silver {
-       width: 52px;
-       height: 52px;
+      width: 52px;
+      height: 52px;
+    }
+
+    /* Mobile adjustments to keep sizing similar on phone */
+    @media (max-width: 600px) {
+      .book-container {
+        width: 260px;
+        height: 335px;
+      }
+
+      .book-wrapper {
+        transform: translate(-50%, -50%) translate(0, 0);
+      }
+
+      .spread-text-overlay {
+        left: -240px;
+        width: 480px;
+        transform-origin: top left;
+        transform: translateY(10px) scale(0.85);
+      }
+
+      .scenario-label {
+        font-size: 16px;
+      }
+
+      .scenario-body,
+      .question-prompt,
+      .choice-option {
+        font-size: 13px;
+      }
+
+      .choice-option {
+        margin-bottom: 16px;
+      }
     }
   </style>
 </head>
@@ -731,15 +764,12 @@
       currentQuestionIndex++;
 
       if (currentQuestionIndex >= questions.length) {
-        // close the book
         cover.style.transform = 'rotateY(0deg)';
         cover.style.zIndex = 10;
         bookWrapper.style.transform = 'translate(-50%, -50%)';
 
-        // show congrats overlay
         finalOverlay.classList.add('visible');
 
-        // prepare for replay
         isOpen = false;
         currentQuestionIndex = 0;
         renderQuestion(currentQuestionIndex);
