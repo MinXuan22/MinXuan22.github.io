@@ -486,26 +486,39 @@
         transform-origin: top left;
         transform: translateY(5px) scale(0.75);
       }
-      
-      .choice-option {
-        padding: 6px 10px;
-        margin-bottom: 12px;
-        font-size: 12px;
-      }
 
-      .choice-circle {
-        width: 18px;
-        height: 18px;
+      /* Answer bubbles thinner and smaller on phone */
+      .choice-option {
+        padding: 4px 9px;
+        margin-top: 8px;
+        margin-bottom: 10px;
+        border-radius: 16px;
         font-size: 11px;
       }
 
-      .scenario-label {
-        font-size: 15px;
+      .choice-circle {
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        border-width: 1.5px;
       }
-      
+
+      .choice-text {
+        max-width: 220px;
+      }
+
+      .scenario-label {
+        font-size: 14px;
+        padding: 3px 8px;
+      }
+
       .scenario-body,
       .question-prompt {
-        font-size: 12px;
+        font-size: 11px;
+      }
+
+      .feedback {
+        font-size: 11px;
       }
     }
   </style>
