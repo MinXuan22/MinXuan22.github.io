@@ -249,14 +249,14 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.7);
-      display: none; 
+      display: none;
       align-items: center;
       justify-content: center;
       z-index: 999;
     }
 
     .congrats-box {
-      background: url("page 5 text bg.jpg") center center / cover no-repeat; 
+      background: url("page 5 text bg.jpg") center center / cover no-repeat;
       border-radius: 16px;
       border: 1px solid #ffffff;
       padding: 28px 36px;
@@ -296,23 +296,27 @@
       background: #d4af37;
       color: #111;
     }
+
     .badge-row {
       display: flex;
       justify-content: center;
-      align-items: center;   
+      align-items: center;
       margin-bottom: 10px;
     }
+
     .badge-image {
       object-fit: contain;
       display: block;
     }
+
     .badge-gold {
       width: 60px;
-      height: 60px;        
+      height: 60px;
     }
+
     .badge-silver {
-       width: 52px;
-       height: 52px;
+      width: 52px;
+      height: 52px;
     }
   </style>
 </head>
@@ -400,7 +404,7 @@
       <div class="badge-row">
         <img src="golden star.png" alt="Golden Star" class="badge-image badge-gold">
         <img src="silver star.png" alt="Silver Star" class="badge-image badge-silver">
-          <img src="silver star.png" alt="Silver Star" class="badge-image badge-silver">
+        <img src="silver star.png" alt="Silver Star" class="badge-image badge-silver">
       </div>
 
       <h2>GOOD WORK, ROOKIE DETECTIVE.</h2>
@@ -427,54 +431,59 @@
   const matchedEvidence = {};
   const TOTAL_MATCHES = 4;
 
-  document.querySelectorAll('.connection-dot').forEach(dot => {
-    dot.addEventListener('mousedown', function () {
-      const evidenceCard = this.closest('.evidence-card');
-      const evidenceId = evidenceCard.dataset.evidenceId;
-
-      if (matchedEvidence[evidenceId] === 'correct') {
-        return;
-      }
-
-      const existingLine = svg.querySelector(
-        `line[data-evidence-id="${evidenceId}"]`
-      );
-      if (existingLine) {
-        existingLine.remove();
-      }
-
-      isDragging = true;
-      startDot = this;
-
-      currentLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      const rect = this.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-
-      currentLine.setAttribute('x1', x);
-      currentLine.setAttribute('y1', y);
-      currentLine.setAttribute('x2', x);
-      currentLine.setAttribute('y2', y);
-      currentLine.setAttribute('stroke', '#d4af37');
-      currentLine.setAttribute('stroke-width', '2');
-      currentLine.setAttribute('stroke-dasharray', '5,5');
-      svg.appendChild(currentLine);
-    });
-  });
-
-  document.addEventListener('mousemove', function (e) {
-    if (isDragging && currentLine) {
-      currentLine.setAttribute('x2', e.clientX);
-      currentLine.setAttribute('y2', e.clientY);
+  function getPoint(e) {
+    if (e.touches && e.touches.length > 0) {
+      return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    } else if (e.changedTouches && e.changedTouches.length > 0) {
+      return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+    } else {
+      return { x: e.clientX, y: e.clientY };
     }
-  });
+  }
 
-  document.addEventListener('mouseup', function (e) {
+  function startDrag(dot, e) {
+    const evidenceCard = dot.closest('.evidence-card');
+    const evidenceId = evidenceCard.dataset.evidenceId;
+
+    if (matchedEvidence[evidenceId] === 'correct') return;
+
+    const existingLine = svg.querySelector(
+      `line[data-evidence-id="${evidenceId}"]`
+    );
+    if (existingLine) existingLine.remove();
+
+    isDragging = true;
+    startDot = dot;
+
+    const point = getPoint(e);
+    currentLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    const rect = dot.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+
+    currentLine.setAttribute('x1', x);
+    currentLine.setAttribute('y1', y);
+    currentLine.setAttribute('x2', point.x);
+    currentLine.setAttribute('y2', point.y);
+    currentLine.setAttribute('stroke', '#d4af37');
+    currentLine.setAttribute('stroke-width', '2');
+    currentLine.setAttribute('stroke-dasharray', '5,5');
+    svg.appendChild(currentLine);
+  }
+
+  function moveDrag(e) {
+    if (!isDragging || !currentLine) return;
+    const point = getPoint(e);
+    currentLine.setAttribute('x2', point.x);
+    currentLine.setAttribute('y2', point.y);
+  }
+
+  function endDrag(e) {
     if (!isDragging) return;
 
-    const targetCard = document
-      .elementFromPoint(e.clientX, e.clientY)
-      ?.closest('.risk-card');
+    const point = getPoint(e);
+    const el = document.elementFromPoint(point.x, point.y);
+    const targetCard = el?.closest('.risk-card');
 
     if (targetCard && startDot && currentLine) {
       const evidenceCard = startDot.closest('.evidence-card');
@@ -516,9 +525,7 @@
 
         if (correctCount === TOTAL_MATCHES) {
           const overlay = document.getElementById('congratsOverlay');
-          if (overlay) {
-            overlay.style.display = 'flex';
-          }
+          if (overlay) overlay.style.display = 'flex';
         }
       } else {
         currentLine.setAttribute('stroke', '#FF5252');
@@ -532,14 +539,37 @@
         matchedEvidence[evidenceId] = 'wrong';
       }
     } else {
-      if (currentLine) {
-        currentLine.remove();
-      }
+      if (currentLine) currentLine.remove();
     }
 
     isDragging = false;
     currentLine = null;
     startDot = null;
+  }
+
+  document.querySelectorAll('.connection-dot').forEach(dot => {
+    dot.addEventListener('mousedown', function (e) {
+      startDrag(this, e);
+    });
+    dot.addEventListener('touchstart', function (e) {
+      e.preventDefault();
+      startDrag(this, e);
+    }, { passive: false });
+  });
+
+  document.addEventListener('mousemove', function (e) {
+    moveDrag(e);
+  });
+  document.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+    moveDrag(e);
+  }, { passive: false });
+
+  document.addEventListener('mouseup', function (e) {
+    endDrag(e);
+  });
+  document.addEventListener('touchend', function (e) {
+    endDrag(e);
   });
 
   document.querySelectorAll('.risk-card').forEach(card => {
