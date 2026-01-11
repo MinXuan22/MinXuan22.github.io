@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  <title>Page 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Special+Elite&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      width: 960px;
+      height: 540px;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; 
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url("page 1 bg.jpg");
+      background-size: cover;
+      z-index: -1;
+    }
+
+    .smoke-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .smoke-strip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 15% 25%, rgba(120, 120, 120, 0.2) 0%, transparent 35%),
+        radial-gradient(circle at 85% 35%, rgba(120, 120, 120, 0.2) 0%, transparent 35%),
+        radial-gradient(circle at 25% 65%, rgba(120, 120, 120, 0.2) 0%, transparent 35%),
+        radial-gradient(circle at 75% 55%, rgba(120, 120, 120, 0.2) 0%, transparent 35%);
+      opacity: 0;
+      animation: smoke-drift 20s linear infinite;
+      filter: blur(25px);
+    }
+
+    .smoke-strip:nth-child(1) { animation-delay: 0s; }
+    .smoke-strip:nth-child(2) { animation-delay: 6s; }
+    .smoke-strip:nth-child(3) { animation-delay: 12s; }
+
+    @keyframes smoke-drift {
+      0% {
+        opacity: 0;
+        transform: translateY(0) rotate(0deg);
+      }
+      10%, 90% {
+        opacity: 0.6;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100vh) rotate(3deg);
+      }
+    }
+
+    h1 {
+      color: white;
+      font-family: 'Rethink Sans', sans-serif;
+      font-size: 25px;
+      position: relative;
+      left: 40px;
+      top: 150px;
+      margin: 50px 0 0;
+      padding: 10px 15px;
+      z-index: 2;
+      letter-spacing: 1.4px;
+    }
+
+    h1 .glow {
+      color: white;
+      text-shadow: 
+        0 0 3px white,
+        0 0 6px white,
+        0 0 9px rgba(255, 255, 255, 0.6);
+    }
+
+    h2 {
+      color: white;
+      font-family: 'Rethink Sans', sans-serif;
+      font-size: 15px;
+      position: absolute;
+      left: 55px;
+      top: 288px;
+      width: 500px;
+      margin: 0;
+      z-index: 2;
+      font-style: italic;
+    }
+
+    p a {
+      color: white;
+      font-family: 'Rethink Sans', sans-serif;
+      font-size: 16px;
+      transition: text-shadow 0.2s ease-in-out;
+      display: block;
+      text-align: center;
+      line-height: 35px; 
+      z-index: 2;
+      position: relative;
+      top: 174px;
+      left: 56px;
+      width: 90px;
+      height: 38px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    }
+
+    p a:hover {
+      text-shadow:
+        0.5px 0.5px 1px white,
+        -0.5px -0.5px 1px black;
+    }
+  </style>
+</head>
+<body>
+  <div class="smoke-bg">
+    <div class="smoke-strip"></div>
+    <div class="smoke-strip"></div>
+    <div class="smoke-strip"></div>
+  </div>
+
+  <h1>The <br> <span class="glow">Rookie Detective</span></h1>
+  <h2>Your first case awaits... Can you uncover the truth?</h2>
+  <p><a href="page2.html">PLAY</a></p>
+
+  <script>
+    document.querySelector("p a").addEventListener("click", function(e) {
+      e.preventDefault();
+      window.location.href = this.href;
+    });
+  </script>
+</body>
+</html>
