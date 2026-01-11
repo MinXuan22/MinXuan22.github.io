@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  <title>Page 6</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Special+Elite&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Special Elite', cursive;
+    }
+
+    #page-content {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .bg-blur {
+      position: absolute;
+      inset: 0;
+      background: url("page 6 bg.jpg") center center / cover no-repeat;
+      filter: blur(2px);
+      transform: scale(1.05);
+      z-index: 0;
+    }
+
+    .page-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .book-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translate(8px, 2.5px);
+      transition: transform 0.8s ease;
+    }
+
+    .book-container {
+      position: relative;
+      width: 350px;
+      height: 450px;
+      perspective: 1200px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .book {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    .book-cover {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      transform-origin: left center;
+      transition: transform 0.7s ease;
+      transform-style: preserve-3d;
+    }
+
+    .cover-front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(245, 222, 179);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Special Elite', cursive;
+      color: rgb(56, 4, 4);
+      text-align: center;
+      font-size: 18px;
+      text-transform: uppercase;
+      padding: 15px;
+      box-sizing: border-box;
+      backface-visibility: hidden;
+    }
+
+    .cover-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(245, 222, 179);
+      padding: 15px;
+      font-family: 'Special Elite', cursive;
+      border: 3px solid rgb(245, 222, 179);
+      color: #380404;
+      font-size: 14px;
+      line-height: 1.5;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      box-sizing: border-box;
+      box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .case-heading {
+      line-height: 1.4;
+    }
+
+    .title-main {
+      display: inline-block;
+      padding: 4px 6px;
+      background-color: rgb(137, 5, 5);
+      border: 3px solid rgb(137, 5, 5);
+      background-color: transparent;
+      color: rgb(137, 5, 5);
+      font-weight: bold;
+      margin-bottom: 180px;
+      max-width: 200px;
+      white-space: normal;
+    }
+
+    .case-tag {
+      display: block;
+      font-size: 0.8em;
+      color: rgb(56, 4, 4);
+      margin-top: 0;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      text-decoration-line: underline;
+      text-decoration-style: dotted;
+      transform: translateY(-140px);
+    }
+
+    .title-sub {
+      display: block;
+      text-transform: none;
+      font-size: 0.8em;
+      text-decoration-color: rgb(56, 4, 4);
+      letter-spacing: 0.05em;
+      margin-top: 0;
+      text-decoration-line: underline;
+      text-decoration-style: dotted;
+      text-transform: uppercase;
+      transform: translateY(-125px);
+    }
+
+    .page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-origin: left center;
+      transition: transform 0.8s ease;
+      left: 0;
+      top: 0;
+      transform-style: preserve-3d;
+    }
+
+    .page-front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(245, 222, 179);
+      padding: 15px;
+      font-family: 'Special Elite', cursive;
+      border: 3px solid rgb(245, 222, 179);
+      color: #380404;
+      font-size: 14px;
+      line-height: 1.5;
+      box-sizing: border-box;
+      backface-visibility: hidden;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .page-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 15px;
+      background-color: rgb(245, 222, 179);
+      border: 3px solid rgb(245, 222, 179);
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      box-sizing: border-box;
+      font-family: 'Special Elite', cursive;
+      color: #380404;
+      font-size: 14px;
+      line-height: 1.5;
+      box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #page1 { z-index: 4; }
+    #page2 { z-index: 3; }
+    #page3 { z-index: 2; }
+    #page4 { z-index: 1; }
+
+    .page-title {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 16px;
+      border-bottom: 1px solid #380404;
+      padding-bottom: 5px;
+    }
+
+    .spread-text-overlay {
+      position: absolute;
+      top: 31px;
+      left: -312px;
+      width: 620px;
+      font-family: 'Special Elite', cursive;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #380404;
+      white-space: normal;
+      word-wrap: break-word;
+      pointer-events: auto;
+      z-index: 5;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .spread-text-overlay.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scenario-label {
+      font-family: 'Special Elite', cursive;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 10px;
+      color: rgb(255, 255, 255);
+      font-weight: bold;
+      display: inline-block;
+      padding: 4px 10px;
+      background-color: #8b0000;
+      border: 2px solid #8b0000;
+    }
+
+    .scenario-body {
+      font-family: 'Special Elite', cursive;
+      margin-top: 10px;
+    }
+
+    .scenario-second-line {
+      margin-top: 8px;
+    }
+
+    .question-prompt {
+      font-family: 'Special Elite', cursive;
+      margin-top: 15px;
+      margin-bottom: 0;
+      text-align: left;
+      text-decoration: underline;
+    }
+
+    .choices {
+      margin-top: 10px;
+    }
+
+    .choice-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      margin-bottom: 22px;
+      padding: 8px 12px;
+      background-color: rgba(245, 222, 179, 0.8);
+      cursor: pointer;
+      max-width: none;
+      border: 1px solid #380404;
+      border-radius: 20px;
+      width: fit-content;
+      transition: background-color 0.2s ease;
+    }
+
+    .choice-option:hover {
+      background-color: rgba(245, 222, 179, 1);
+      transform: scale(1.02);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .choice-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #380404;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Special Elite', cursive;
+      font-size: 12px;
+      color: #380404;
+      background-color: rgb(245, 222, 179);
+    }
+
+    .choice-option:hover .choice-circle {
+      background-color: #d4af37;
+      transform: scale(1.1);
+    }
+
+    .choice-text {
+      flex: 0 1 auto;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      max-width: 650px;
+      display: block;
+    }
+
+    .circle-arrow-wrap {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #380404;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 55%;
+      right: -20px;
+      transform: translateY(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .circle-arrow-wrap.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .next-arrow {
+      position: static;
+      font-size: 28px;
+      color: rgb(245, 222, 179);
+      cursor: pointer;
+      line-height: 1;
+      transform: translate(-1px, 3px);
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background-color: #610000;
+      color: #f5deb3;
+      border: 2px solid #380404;
+      border-radius: 5px;
+      font-family: 'Special Elite', cursive;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      position: absolute;
+      left: 485px;
+      bottom: 100px;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .btn:hover {
+      background-color: #8B4513;
+    }
+
+    .btn:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+
+    .final-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+
+    .final-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .final-box {
+      background: url("page 6 text bg.jpg") center center / cover no-repeat;
+      border-radius: 16px;
+      border: 1px solid #ffffff;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+      padding: 28px 36px;
+      max-width: 90%;
+      width: 485px;
+      min-height: 180px;
+      text-align: center;
+      font-family: 'Rethink Sans', sans-serif;
+      color: #ffffff;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+    }
+
+    .final-box-title {
+      font-size: 21px;
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .final-box-text {
+      margin: 0 0 18px;
+      font-size: 14px;
+    }
+
+    .final-box-btn {
+      padding: 8px 18px;
+      border-radius: 20px;
+      margin-top: 8px;
+      padding: 8px 18px;
+      border: 1px solid #380404;
+      background-color: #610000;
+      color: #f5f5f5;
+      font-family: 'Special Elite', cursive;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .final-box-btn:hover {
+      background-color: #8B4513;
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .badge-image {
+      object-fit: contain;
+      display: block;
+    }
+    .badge-gold {
+      width: 60px;
+      height: 60px;
+    }
+    .badge-silver {
+       width: 52px;
+       height: 52px;
+    }
+
+    @media (max-width: 768px) {
+      #page-content {
+        overflow-y: auto;
+      }
+
+      .book-wrapper {
+        transform: translate(-50%, -50%) !important;
+        position: relative;
+        top: auto;
+        left: auto;
+        margin: 20px auto;
+      }
+
+      .book-container {
+        width: min(90vw, 350px);
+        height: auto;
+        aspect-ratio: 7/9;
+      }
+
+      .cover-front {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .title-main {
+        font-size: 14px;
+        max-width: 150px;
+      }
+
+      .spread-text-overlay {
+        position: relative;
+        left: 0;
+        top: 20px;
+        width: 85vw;
+        margin: 0 auto;
+        padding: 15px;
+        background-color: rgba(245, 222, 179, 0.95);
+        border-radius: 10px;
+        border: 2px solid #380404;
+      }
+
+      .scenario-label {
+        font-size: 14px;
+      }
+
+      .scenario-body {
+        font-size: 12px;
+      }
+
+      .choice-option {
+        width: 100% !important;
+        padding: 12px !important;
+        margin-bottom: 15px !important;
+        min-height: 80px !important;
+        max-height: none !important;
+        display: flex !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+        align-items: flex-start; 
+      }
+
+      .choice-text {
+        font-size: 12px;
+        line-height: 1.4; 
+        flex: 1;
+        word-break: break-word;
+      }
+
+      .choice-circle {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+        flex-shrink: 0;  
+    }
+
+      .circle-arrow-wrap {
+        position: relative;
+        right: auto;
+        top: auto;
+        margin: 20px auto 0;
+        transform: none;
+      }
+
+      .btn {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        transform: none;
+        margin: 20px auto; 
+        display: block;
+        width: 80%;
+        max-width: 250px;
+      }
+
+      .final-box {
+        width: 85vw;
+        padding: 20px;
+      }
+
+      .final-box-title {
+        font-size: 16px;
+      }
+
+      .final-box-text {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .book-container {
+        width: 95vw;
+      }
+
+      .spread-text-overlay {
+        width: 90vw;
+        font-size: 11px;
+        padding: 10px;
+      }
+
+      .scenario-label {
+        font-size: 12px;
+        padding: 3px 8px;
+      }
+
+      .choice-option {
+        padding: 10px;
+      }
+
+      .choice-circle {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+      }
+
+      .choice-text {
+        font-size: 11px;
+        font-size: 11px !important;
+        line-height: 1.3 !important;
+      }
+
+      .badge-gold {
+        width: 45px;
+        height: 45px;
+      }
+
+      .badge-silver {
+        width: 38px;
+        height: 38px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="page-content">
+    <div class="bg-blur"></div>
+
+    <div class="page-inner">
+      <div class="book-wrapper" id="bookWrapper">
+        <div class="book-container">
+          <div class="book">
+
+            <div class="book-cover" id="cover">
+              <div class="cover-front">
+                <div class="case-heading">
+                  <span class="title-main">DETECTIVE TRAINING DIVISION</span>
+                  <span class="case-tag">CASE FILE 02: ONLINE HARMS</span>
+                  <span class="title-sub">Knowledge Assessment</span>
+                </div>
+              </div>
+              <div class="cover-back"></div>
+            </div>
+
+            <div class="page" id="page1">
+              <div class="page-front"></div>
+              <div class="page-back">
+                <div class="page-title"></div>
+              </div>
+            </div>
+
+            <div class="page" id="page2">
+              <div class="page-front"></div>
+              <div class="page-back"></div>
+            </div>
+
+            <div class="page" id="page3">
+              <div class="page-front"></div>
+              <div class="page-back"></div>
+            </div>
+
+            <div class="page" id="page4">
+              <div class="page-front"></div>
+              <div class="page-back"></div>
+            </div>
+
+            <div class="spread-text-overlay">
+              <div class="scenario-label">QUESTION 1</div>
+              <div class="scenario-body">
+                <div>Your account supposedly has been compromised.</div>
+                <div class="scenario-second-line">
+                  You receive: "URGENT! Your account will be locked in 5 minutes! Reset your password now: [link]"
+                </div>
+              </div>
+
+              <div class="question-prompt">
+                What would you do?
+              </div>
+
+              <div class="choices-container">
+                <div class="choices">
+                  <div class="choice-option" data-choice="A">
+                    <span class="choice-circle">A</span>
+                    <span class="choice-text">Click the link immediately</span>
+                  </div>
+
+                  <div class="choice-option" data-choice="B">
+                    <span class="choice-circle">B</span>
+                    <span class="choice-text">Ignore the message and check your account from the official website</span>
+                  </div>
+
+                  <div class="choice-option" data-choice="C">
+                    <span class="choice-circle">C</span>
+                    <span class="choice-text">Reply asking for proof</span>
+                  </div>
+                </div>
+
+                <div class="feedback">Correct!</div>
+              </div>
+
+              <div class="circle-arrow-wrap">
+                <span class="next-arrow" id="nextArrow">➜</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn" id="actionBtn">Start</button>
+    </div>
+  </div>
+
+  <div class="final-overlay" id="finalOverlay">
+    <div class="final-box">
+      <div class="badge-row">
+        <img src="golden star.png" alt="Golden Star" class="badge-image badge-gold">
+        <img src="golden star.png" alt="Golden Star" class="badge-image badge-gold">
+        <img src="silver star.png" alt="Silver Star" class="badge-image badge-silver">
+      </div>
+
+      <div class="final-box-title">CONGRATULATIONS, ROOKIE DETECTIVE.</div>
+      <div class="final-box-text">
+        You've made it through the second round. <br>
+        The final stage awaits. <br>
+        Pass it, and you'll prove you have what it takes to become a true detective.
+      </div>
+      <a href="page7.html" class="final-box-btn" id="finalCloseBtn">Continue</a>
+    </div>
+  </div>
+
+  <script>
+    const cover = document.getElementById('cover');
+    const bookWrapper = document.getElementById('bookWrapper');
+    const textOverlay = document.querySelector('.spread-text-overlay');
+    const actionBtn = document.getElementById('actionBtn');
+
+    const choices = document.querySelectorAll('.choice-option');
+    const feedback = document.querySelector('.feedback');
+    const circleArrowWrap = document.querySelector('.circle-arrow-wrap');
+
+    const finalOverlay = document.getElementById('finalOverlay');
+    const finalCloseBtn = document.getElementById('finalCloseBtn');
+
+    const questions = [
+      {
+        label: 'QUESTION 1',
+        scenarioLine1: 'Your account supposedly has been compromised.',
+        scenarioLine2: 'You receive: "URGENT! Your account will be locked in 5 minutes! Reset your password now: [link]"',
+        prompt: 'What would you do?',
+        choices: {
+          A: 'Click the link immediately',
+          B: 'Ignore the message and check your account from the official website',
+          C: 'Reply asking for proof'
+        },
+        correct: 'B',
+        feedbackMessages: {
+          A: 'Scammers use urgency to pressure you into acting without thinking.',
+          B: 'Good move. Accessing accounts through official channels protects your information.',
+          C: 'Replying confirms your account is active and may invite more scams.'
+        }
+      },
+      {
+        label: 'QUESTION 2',
+        scenarioLine1: 'You post a photo wearing your school uniform with your full name visible.',
+        scenarioLine2: 'Later, a stranger messages: "Hey, I go to your school too! Want to hang out?"',
+        prompt: 'What is the main risk?',
+        choices: {
+          A: 'They could be friendly',
+          B: 'They could use your info to track or impersonate you',
+          C: 'Nothing; online chat is normal',
+        },
+        correct: 'B',
+        feedbackMessages: {
+          A: 'Seems harmless, but strangers can exploit personal info.',
+          B: 'Correct. Oversharing can put you at risk.',
+          C: 'Online interactions with strangers are not always safe.'
+        }
+      },
+      {
+        label: 'QUESTION 3',
+        scenarioLine1: 'You receive a video message from a "friend" asking for money,',
+        scenarioLine2: 'but something feels off—their voice and face seem slightly different.',
+        prompt: 'What would you do?',
+        choices: {
+          A: 'Send money immediately in case it is real',
+          B: 'Reply asking why they look different in the video',
+          C: 'Call or message your friend using a known contact method to confirm'
+        },
+        correct: 'C',
+        feedbackMessages: {
+          A: 'Sending money without verifying can lead to fraud, especially if AI-generated deepfakes are involved.',
+          B: 'Replying could tip off scammers that your account is active and may pressure you further.',
+          C: 'Nice one. Verifying identity through trusted methods keeps you safe from AI scams.'
+        }
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let isOpen = false;
+
+    function renderQuestion(index) {
+      const q = questions[index];
+      if (!q) return;
+
+      const labelEl = textOverlay.querySelector('.scenario-label');
+      const line1El = textOverlay.querySelector('.scenario-body > div:nth-child(1)');
+      const line2El = textOverlay.querySelector('.scenario-second-line');
+      const promptEl = textOverlay.querySelector('.question-prompt');
+
+      const choiceAEl = textOverlay.querySelector('.choice-option[data-choice="A"] .choice-text');
+      const choiceBEl = textOverlay.querySelector('.choice-option[data-choice="B"] .choice-text');
+      const choiceCEl = textOverlay.querySelector('.choice-option[data-choice="C"] .choice-text');
+
+      if (labelEl) labelEl.textContent = q.label;
+      if (line1El) line1El.textContent = q.scenarioLine1;
+      if (line2El) line2El.textContent = q.scenarioLine2;
+      if (promptEl) promptEl.textContent = q.prompt;
+
+      if (choiceAEl) choiceAEl.textContent = q.choices.A;
+      if (choiceBEl) choiceBEl.textContent = q.choices.B;
+      if (choiceCEl) choiceCEl.textContent = q.choices.C;
+
+      feedback.textContent = '';
+      feedback.style.opacity = '0';
+
+      choices.forEach(c => {
+        c.style.backgroundColor = 'rgba(245, 222, 179, 0.8)';
+        c.style.borderColor = '#380404';
+        c.style.boxShadow = 'none';
+      });
+
+      if (circleArrowWrap) {
+        circleArrowWrap.classList.remove('visible');
+      }
+    }
+
+    renderQuestion(currentQuestionIndex);
+
+    choices.forEach(choice => {
+      choice.addEventListener('click', () => {
+        const selected = choice.getAttribute('data-choice');
+        const q = questions[currentQuestionIndex];
+        if (!q) return;
+
+        const correctAnswer = q.correct;
+        const feedbackMessages = q.feedbackMessages;
+
+        choices.forEach(c => {
+          c.style.backgroundColor = 'rgba(245, 222, 179, 0.8)';
+          c.style.borderColor = '#380404';
+          c.style.boxShadow = 'none';
+        });
+
+        feedback.textContent = feedbackMessages[selected] || '';
+
+        if (selected === correctAnswer) {
+          feedback.style.color = '#228B22';
+          choice.style.backgroundColor = '#d4f0d4';
+          choice.style.borderColor = '#228B22';
+          choice.style.boxShadow = '0 0 6px rgba(34, 139, 34, 0.3)';
+
+          if (circleArrowWrap) {
+            circleArrowWrap.classList.add('visible');
+          }
+        } else {
+          feedback.style.color = '#8b0000';
+          choice.style.backgroundColor = '#ff6961';
+          choice.style.borderColor = '#8b0000';
+          choice.style.boxShadow = '0 0 6px rgba(139, 0, 0, 0.3)';
+
+          if (circleArrowWrap) {
+            circleArrowWrap.classList.remove('visible');
+          }
+        }
+
+        feedback.style.opacity = '1';
+      });
+    });
+
+    function goToNextQuestion() {
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex >= questions.length) {
+        cover.style.transform = 'rotateY(0deg)';
+        cover.style.zIndex = 10;
+        bookWrapper.style.transform = 'translate(-50%, -50%)';
+
+        finalOverlay.classList.add('visible');
+
+        isOpen = false;
+        currentQuestionIndex = 0;
+        renderQuestion(currentQuestionIndex);
+        return;
+      }
+
+      renderQuestion(currentQuestionIndex);
+      textOverlay.classList.add('visible');
+    }
+
+    if (circleArrowWrap) {
+      circleArrowWrap.addEventListener('click', () => {
+        textOverlay.classList.remove('visible');
+        circleArrowWrap.classList.remove('visible');
+
+        setTimeout(() => {
+          goToNextQuestion();
+        }, 1500);
+      });
+    }
+
+    actionBtn.addEventListener('click', () => {
+      if (!isOpen) {
+        cover.style.transform = 'rotateY(-180deg)';
+        cover.style.zIndex = 0;
+        
+        // Check if mobile
+        if (window.innerWidth <= 768) {
+          bookWrapper.style.transform = 'translate(-50%, -50%)';
+        } else {
+          bookWrapper.style.transform = 'translate(-50%, -50%) translateX(180px)';
+        }
+
+        setTimeout(() => {
+          textOverlay.classList.add('visible');
+        }, 700);
+
+        isOpen = true;
+        actionBtn.style.display = 'none';
+        return;
+      }
+    });
+
+    finalCloseBtn.addEventListener('click', () => {
+      finalOverlay.classList.remove('visible');
+      actionBtn.textContent = 'Start';
+      actionBtn.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
